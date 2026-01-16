@@ -3,7 +3,7 @@ export type Config = {
   website_url: any;
 };
 
-export default function configModification(config: Config) {
+export default async function configModification(config: Config) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({

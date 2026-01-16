@@ -4,7 +4,7 @@ export type Info = {
   version: any;
 };
 
-export default function infoModification(info: Info) {
+export default async function infoModification(info: Info) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({

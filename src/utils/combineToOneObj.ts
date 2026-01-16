@@ -13,8 +13,12 @@ type Data = {
   technique: string;
 };
 
-export default function combineToOneObj(
-  config: Config,
-  data: Data,
-  info: Info
-) {}
+type CombinedObject = Config & Data & Info;
+
+export default async function combineToOneObj(
+  config: any,
+  data: any,
+  info: any
+): Promise<CombinedObject> {
+  return Promise.resolve({ ...config, ...data, ...info });
+}

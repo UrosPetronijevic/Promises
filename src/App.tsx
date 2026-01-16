@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import dataModification from "./utils/dataModification";
+import infoModification from "./utils/infoModification";
+import configModification from "./utils/configModification";
+import combineToOneObj from "./utils/combineToOneObj";
 
 export default function App() {
   const [data, setData] = useState<any>(null);
-  const [info, setInfo] = useState<any>(null);
-  const [config, setConfig] = useState<any>(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,23 +30,25 @@ export default function App() {
         } else {
           setError("An unknown error occurred.");
         }
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData()
-      .then((result) => {
+      .then(async (result) => {
         console.log(result);
 
-        // setData(result.data);
-        // setInfo(result.info);
-        // setConfig(result.config);
-
-        return;
+        return await combineToOneObj(
+          await configModification(result.config),
+          await dataModification(result.data),
+          await infoModification(result.info)
+        ).then((obj) => {
+          setData(obj);
+          console.log(obj);
+        });
       })
       .finally(() => {
         console.log("Fetchig finished data stored in state");
+        setLoading(false);
       });
   }, []);
 
